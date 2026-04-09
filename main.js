@@ -1,22 +1,35 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('node:path');
 
-const createWindow = (path) => {
+let gameId;
+
+function handleConfirmGameId(event, newGameId) {
+  BrowserWindow.fromWebContents(event.sender).close();
+  gameId = newGameId;
+  console.log(gameId);
+}
+
+function createWindow (filePath) {
   const win = new BrowserWindow({
     width: 800,
-    height: 600
-  })
+    height: 600,
+    webPreferences: {
+      preload: path.join(filePath, "preload.js")
+    }
+  });
 
-  win.loadFile(path)
+  win.loadFile(path.join(filePath, "index.html"));
 }
 
 app.whenReady().then(() => {
-  createWindow("./choose-game/index.html")
+  ipcMain.on('confirmGameId', handleConfirmGameId);
+  createWindow(path.join(__dirname, "choose-game"));
 
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
 
 app.on('window-all-closed', () => {
-  app.quit()
-})
+  app.quit();
+});
