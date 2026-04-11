@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron/main');
+const { app, BrowserWindow, ipcMain, utilityProcess } = require('electron/main');
 const path = require('node:path');
 
 let gameId;
@@ -14,7 +14,8 @@ function createWindow (filePath) {
     width: 1400,
     height: 600,
     webPreferences: {
-      preload: path.join(filePath, "preload.js")
+      preload: path.join(filePath, "preload.js"),
+      devTools: false,
     }
   });
 
@@ -24,6 +25,9 @@ function createWindow (filePath) {
 app.whenReady().then(() => {
   ipcMain.on('confirmGameId', handleConfirmGameId);
   createWindow(path.join(__dirname, "game-link"));
+
+  const server = utilityProcess.fork(path.join(__dirname, "server", "server.js"));
+  const util = utilityProcess.fork(path.join(__dirname, "util.js"));
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

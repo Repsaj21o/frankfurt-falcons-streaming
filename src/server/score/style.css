@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+
+body { margin: 0; padding: 0; background: transparent; font-family: 'Poppins', sans-serif; overflow: hidden; }
+
+#scoreboard-container {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    display: inline-block;
+}
+
+#scoreboard-img {
+    display: block;
+    height: 120px; /* Höhe für beide Zeilen zusammen */
+    width: auto;
+}
+
+/* Container für die Score-Zahlen */
+.score-box {
+    position: absolute;
+    right: 0;
+    width: 75px; /* Breite der dunklen Box im Bild */
+    height: 60px; /* Höhe einer einzelnen Zeile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 36px;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Exakte Positionierung auf den dunklen Flächen */
+#scoreA { top: 0; }
+#scoreB { top: 60px; }
