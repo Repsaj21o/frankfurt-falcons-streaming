@@ -39,3 +39,17 @@ db.ref('lastEvent').on('value', (snapshot) => {
         setTimeout(() => { container.classList.remove('active'); }, 5000);
     }
 });
+
+const queue = [];
+
+const socket = new WebSocket("ws://127.0.0.1:3000/events");
+const channel = new BroadcastChannel("Main");
+
+socket.onopen = () => socket.send("WS /events");
+socket.onclose = (ev) => window.history.back();
+socket.onmessage = (ev) => queue.push(ev.data);
+
+channel.onmessage = (ev) => {
+    channel.onmessage = null;
+    channel.postMessage("Main /events");
+};

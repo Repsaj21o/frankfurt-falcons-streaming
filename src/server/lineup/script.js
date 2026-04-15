@@ -39,3 +39,14 @@ function updateDisplay(team, lineNr) {
         });
     });
 }
+
+const socket = new WebSocket("ws://127.0.0.1:3000/lineup");
+const channel = new BroadcastChannel("Main");
+
+socket.onopen = () => socket.send("WS /lineup");
+socket.onclose = (ev) => window.history.back();
+
+channel.onmessage = (ev) => {
+    channel.onmessage = null;
+    channel.postMessage("Main /lineup");
+};

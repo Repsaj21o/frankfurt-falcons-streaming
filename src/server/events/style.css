@@ -3,7 +3,7 @@
 body { margin: 0; padding: 0; overflow: hidden; font-family: 'Poppins', sans-serif; background: transparent; }
 
 /* Erhöhte Opacity (0.98) für eine fast solide Box */
-#event-container {
+.event-container {
     position: absolute;
     bottom: 12%; 
     left: 50%;
@@ -25,7 +25,7 @@ body { margin: 0; padding: 0; overflow: hidden; font-family: 'Poppins', sans-ser
     overflow: hidden;
 }
 
-#event-container.active {
+.event-container.active {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);

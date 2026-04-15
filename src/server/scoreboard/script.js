@@ -10,9 +10,27 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+
 db.ref('scoreboard_active').on('value', (snap) => {
     const data = snap.val() || {};
     if(data.img) document.getElementById('scoreboard-img').src = data.img;
     document.getElementById('scoreA').innerText = data.scoreA || 0;
     document.getElementById('scoreB').innerText = data.scoreB || 0;
 });
+
+const socket = new WebSocket("ws://127.0.0.1:3000/scoreboard");
+const channel = new BroadcastChannel("Main");
+
+socket.onopen = () => {
+    socket.send("WS /scoreboard");
+    channel.onmessage = (m) => socket.send(m.data);
+    channel.postMessage("Connected to Main");
+    socket.send("Main /scoreboard");
+};
+socket.onclose = (ev) => window.history.back();
+
+let startTime = Date.now();
+let seconds = 0
+setInterval(() => {
+    
+}, 100);

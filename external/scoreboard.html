@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de">
+<head></head>
+<body>
+    <script>
+        setInterval(() => {
+            fetch("http://127.0.0.1:3000/scoreboard").then((res) => {
+                if (res.status === 200) {
+                    window.history.pushState({}, "", window.location);
+                    window.location = "http://127.0.0.1:3000/scoreboard";
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
